@@ -9,8 +9,6 @@ from rest_framework.authentication import TokenAuthentication
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
 def test(request):
     if request.method == 'GET':
         return Response(data={"message": "hello user"})

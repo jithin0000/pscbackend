@@ -21,7 +21,7 @@ class AgentSerializerTest(APITestCase):
 
     def test_serialzer_phone_number_is_valid(self):
         data = {
-            "name": "firstname", "phone_number": "1234567890", "address_state": "kerala",
+            "name": "firstname", "phone_number": "123456789011", "address_state": "kerala",
             "address_city": "Thrissur", "address_pin": "1234"
         }
         serializer = AgentSerializer(data=data)

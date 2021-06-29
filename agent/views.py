@@ -21,10 +21,10 @@ def register_agent(request):
         if serializer.is_valid():
             email = data['email']
             if MyUser.objects.filter(email=email).count() > 0:
-                return Response({"detail": "Already user exist with this email"})
+                return Response({"detail": "Already user exist with this email"}, status=status.HTTP_400_BAD_REQUEST)
             password = data['password']
             if len(password) < 6:
-                return Response({"detail": "Password should be greater than 6"})
+                return Response({"detail": "Password should be greater than 6"}, status=status.HTTP_400_BAD_REQUEST)
             user = MyUser.objects.create_user(email=email, password=password)
             serializer.save(user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -1,12 +1,12 @@
+from agent.models import Agent
 from customauth.models import MyUser
-from django.shortcuts import render
-from rest_framework.generics import CreateAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
-from rest_framework import status
-from .models import Agent
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics, status
 from .serializers import AgentSerializer
+from customauth.permissions import AdminOnly
 # Create your views here.
 
 # need to udpate it's permission, it's only accessabile for admins
@@ -29,3 +29,12 @@ def register_agent(request):
             serializer.save(user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AgentListView(generics.ListAPIView, generics.GenericAPIView):
+    """agent list api view"""
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = (IsAuthenticated, AdminOnly, )
+    queryset = Agent.objects.all()
+    serializer_class = AgentSerializer

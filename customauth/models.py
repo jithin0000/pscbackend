@@ -12,12 +12,16 @@ from rest_framework.authtoken.models import Token
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, role=None, password=None):
         if not email:
             raise ValueError("user must have an email address")
 
+        if role == None:
+            role = "STUDENT"
+
         user = self.model(
-            email=self.normalize_email(email)
+            email=self.normalize_email(email),
+            role=role
         )
 
         user.set_password(password)
@@ -25,10 +29,18 @@ class MyUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None):
-        user = self.create_user(email, password)
+        user = self.create_user(email=email, password=password, role='ADMIN')
         user.is_admin = True
         user.save(using=self._db)
         return user
+
+
+user_role_choices = [
+    ('ADMIN', 'ADMIN'),
+    ('AGENT', 'AGENT'),
+    ('STUDENT', 'STUDENT'),
+
+]
 
 
 class MyUser(AbstractBaseUser):
@@ -39,6 +51,8 @@ class MyUser(AbstractBaseUser):
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    role = models.CharField(choices=user_role_choices,
+                            default='STUDENT', max_length=125)
 
     objects = MyUserManager()
     USERNAME_FIELD = 'email'

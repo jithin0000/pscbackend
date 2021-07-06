@@ -25,7 +25,8 @@ def register_agent(request):
             password = data['password']
             if len(password) < 6:
                 return Response({"detail": "Password should be greater than 6"}, status=status.HTTP_400_BAD_REQUEST)
-            user = MyUser.objects.create_user(email=email, password=password)
+            user = MyUser.objects.create_user(
+                email=email, password=password, role="AGENT")
             serializer.save(user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

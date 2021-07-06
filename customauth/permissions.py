@@ -7,5 +7,11 @@ class AdminOnly(BasePermission):
     """ only admin can do this"""
 
     def has_permission(self, request, obj):
-        print(request.user)
         return request.user.is_admin
+
+
+class AgentOnly(BasePermission):
+    """ permission for agents"""
+
+    def has_permission(self, request, view):
+        return request.user.role == 'AGENT'

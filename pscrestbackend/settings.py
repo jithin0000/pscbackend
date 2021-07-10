@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'customauth',
     'rest_framework.authtoken',
     'agent',
-    'corsheaders'
+    'corsheaders',
+    'student'
 ]
 
 MIDDLEWARE = [

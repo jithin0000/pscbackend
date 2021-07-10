@@ -20,8 +20,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/api-token-auth/', obtain_auth_token),
-    path('api/', include('customauth.urls')),
+    path('api/auth/login', obtain_auth_token),
+    path('api/auth/', include('customauth.urls')),
     path('api/agent/', include('agent.urls')),
 
 ]

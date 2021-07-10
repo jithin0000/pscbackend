@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/auth/login', obtain_auth_token),
     path('api/auth/', include('customauth.urls')),
     path('api/agent/', include('agent.urls')),
+    path('api/student/', include('student.urls')),
 
 ]

@@ -24,5 +24,6 @@ urlpatterns = [
     path('api/auth/', include('customauth.urls')),
     path('api/agent/', include('agent.urls')),
     path('api/student/', include('student.urls')),
+    path('api/course/', include('course.urls')),
 
 ]

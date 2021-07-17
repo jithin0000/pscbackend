@@ -192,3 +192,25 @@ class TestStudentDeleteView(APITestCase):
         assert response.status_code == 204
         assert Student.objects.count() == 0
         assert MyUser.objects.get(email="agent@gmail.com") != None
+
+ # ***************** Details *************************
+
+    def test_detail_student_return_401(self):
+        response = self.client.get(
+            reverse('detail_student', kwargs={'pk': 1}), format="json")
+        assert response.status_code == 401
+
+    def test_detail_student_return_403(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION="Token "+self.admin_token.key)
+        response = self.client.get(
+            reverse("detail_student", kwargs={"pk": 1}), format="json")
+        assert response.status_code == 403
+
+    def test_detail_student_return_200(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION="Token "+self.agent_token.key)
+        response = self.client.get(
+            reverse("detail_student", kwargs={"pk": 1}), format="json")
+        assert response.status_code == 200
+        assert response.data['id'] == 1

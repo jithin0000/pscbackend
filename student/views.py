@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from customauth.permissions import AgentOnly
-from rest_framework.generics import ListAPIView, DestroyAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
 from django.utils import timezone
 
 from rest_framework import status
@@ -53,6 +53,14 @@ class GetStudentsOfAgent(BaseStudentGenericClass, ListAPIView):
 
     def get_queryset(self):
         return self.request.user.added_agent.all()
+
+# student details
+
+
+class StudentDetailView(BaseStudentGenericClass, RetrieveAPIView):
+    """ detail api view """
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
 
 # update student

@@ -7,7 +7,7 @@ class CourseSerializer(serializers.ModelSerializer):
     """ serializer for course """
     class Meta:
         model = Course
-        fields = "__all__"
+        fields = ['id','title','description','start_time', 'end_time','students']
 
     def validate(self, data):
         if(data['end_time'] < data['start_time']):

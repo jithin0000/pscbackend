@@ -49,3 +49,25 @@ class TestCourseSerializer(APITestCase):
         }
         serializer = CourseSerializer(data=data)
         assert serializer.is_valid() ==False
+
+    def test_should_return_true_if_form_is_valid(self):
+        agent = Agent.objects.create(
+            user = MyUser.objects.create_user(email="test@gmail.com", password="password", role="AGENT"),
+            name = "name",phone_number ="123456789",
+            address_state ="kearala",
+            address_city ="thrissur",
+            address_pin ="6850123",
+        )
+        data = {
+            "title":"first course",
+            "description":"invalid description",
+            "created_by": 1,
+            "start_time": datetime.today()+ timedelta(21),
+            "end_time": datetime.today() + timedelta(24),
+            "status": "CREATED"
+        }
+        serializer = CourseSerializer(data=data)
+        assert serializer.is_valid() ==True
+
+
+

@@ -61,6 +61,7 @@ class TestQuestionCreate(APITestCase):
         assert response.status_code == 201
         assert Question.objects.first().options.count() == 2
 
+        # =================  Question update view ================
     def test_question_update_return_200(self):
         """test question updated with options """
         token = Token.objects.get(user__email="agent@gmail.com")
@@ -83,3 +84,49 @@ class TestQuestionCreate(APITestCase):
             reverse('update_question', kwargs={'pk': 1}), data=update_data, format="json")
         assert response.status_code == 200
         assert Option.objects.get(text="another option") is not None
+
+        # =================  Question detail view ================
+    def test_question_details_return_200(self):
+        """test question detail  """
+        token = Token.objects.get(user__email="agent@gmail.com")
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        q = Question.objects.create(text="first question ", created_by=self.agent,
+                                    answer="answer"
+                                    )
+        Option.objects.create(text="first", question=q)
+        Option.objects.create(text="second", question=q)
+
+        response = self.client.get(
+            reverse('detail_question', kwargs={'pk': 1}), format="json")
+        assert response.status_code == 200
+
+        # =================  Question delete view ================
+    def test_question_delete_return_204(self):
+        """test question delete  """
+        token = Token.objects.get(user__email="agent@gmail.com")
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        q = Question.objects.create(text="first question ", created_by=self.agent,
+                                    answer="answer"
+                                    )
+        Option.objects.create(text="first", question=q)
+        Option.objects.create(text="second", question=q)
+
+        response = self.client.delete(
+            reverse('delete_question', kwargs={'pk': 1}), format="json")
+        assert response.status_code == 204
+        assert Question.objects.count() == 0
+
+        # =================  Question list view ================
+    def test_question_delete_return_200(self):
+        """test question delete  """
+        token = Token.objects.get(user__email="agent@gmail.com")
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        q = Question.objects.create(text="first question ", created_by=self.agent,
+                                    answer="answer"
+                                    )
+        Option.objects.create(text="first", question=q)
+        Option.objects.create(text="second", question=q)
+
+        response = self.client.get(
+            reverse('list_question'), format="json")
+        assert response.status_code == 200

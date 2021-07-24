@@ -20,5 +20,8 @@ class Course(models.Model):
     status = models.CharField(choices=course_choices, max_length=50)
     students = models.ManyToManyField(Student, null=True)
 
+    def __str__(self):
+        return self.title
+
     # rating
     # exams

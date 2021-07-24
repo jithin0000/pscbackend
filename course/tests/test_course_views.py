@@ -5,7 +5,8 @@ from customauth.models import MyUser
 from rest_framework.authtoken.models import Token
 from agent.models import Agent
 
-from datetime import datetime, timedelta
+from django.utils import timezone
+from django.utils.timezone import timedelta
 
 class TestCourseView(APITestCase):
     """ test for course view """
@@ -41,8 +42,8 @@ class TestCourseView(APITestCase):
         data = {
             "title":"first course",
             "description":"invalid description",
-            "start_time": datetime.today()+ timedelta(21),
-            "end_time": datetime.today() + timedelta(24),
+            "start_time": timezone.now()+ timedelta(21),
+            "end_time": timezone.now() + timedelta(24),
         },format='json')
         course = Course.objects.get(title = 'first course')
         assert response.status_code == 201
@@ -53,8 +54,8 @@ class TestCourseView(APITestCase):
         token = Token.objects.get(user__email="test@gmail.com")
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         Course.objects.create(
-            title="course",description="this is description", start_time=datetime.today() +timedelta(2),
-            end_time =datetime.today()+timedelta(4),
+            title="course",description="this is description", start_time=timezone.now() +timedelta(2),
+            end_time =timezone.now()+timedelta(4),
             created_by = self.agent
         )
         response = self.client.get(reverse('get_courses'),format="json")
@@ -71,8 +72,8 @@ class TestCourseView(APITestCase):
         token = Token.objects.get(user__email="test@gmail.com")
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         Course.objects.create(
-            title="course",description="this is description", start_time=datetime.today() +timedelta(2),
-            end_time =datetime.today()+timedelta(4),
+            title="course",description="this is description", start_time=timezone.now() +timedelta(2),
+            end_time =timezone.now()+timedelta(4),
             created_by = self.agent
         )
         response = self.client.get(reverse('course_detail',kwargs={'pk': 1}),format="json")
@@ -86,8 +87,8 @@ class TestCourseView(APITestCase):
         token = Token.objects.get(user__email="test@gmail.com")
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         course = Course.objects.create(
-            title="course",description="this is description", start_time=datetime.today() +timedelta(2),
-            end_time =datetime.today()+timedelta(4),
+            title="course",description="this is description", start_time=timezone.now() +timedelta(2),
+            end_time =timezone.now()+timedelta(4),
             created_by = self.agent
         )
         response = self.client.put(reverse('course_update',kwargs={'pk': 1}),
@@ -107,8 +108,8 @@ class TestCourseView(APITestCase):
         token = Token.objects.get(user__email="test@gmail.com")
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         Course.objects.create(
-            title="course",description="this is description", start_time=datetime.today() +timedelta(2),
-            end_time =datetime.today()+timedelta(4),
+            title="course",description="this is description", start_time=timezone.now() +timedelta(2),
+            end_time =timezone.now()+timedelta(4),
             created_by = self.agent
         )
         response = self.client.delete(reverse('course_delete',kwargs={'pk': 1}),format="json")

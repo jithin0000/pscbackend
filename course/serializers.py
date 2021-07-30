@@ -19,3 +19,7 @@ class CourseSerializer(serializers.ModelSerializer):
             return value
         raise serializers.ValidationError("start time should be greather than today")
 
+class CourseResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = "__all__"

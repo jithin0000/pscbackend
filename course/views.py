@@ -6,7 +6,9 @@ from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, 
 from rest_framework.permissions import IsAuthenticated
 from customauth.permissions import AgentOnly
 from rest_framework.authentication import TokenAuthentication
-from . serializers import CourseSerializer, Course
+from . serializers import CourseSerializer, Course,CourseResponseSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 
 class BaseCourseClass():
     permission_classes = [IsAuthenticated,AgentOnly]
@@ -25,8 +27,13 @@ class CourseCreateView(BaseCourseClass,CreateAPIView):
 
 class CourseListView(BaseCourseClass,ListAPIView):
     """ list of courses of particular agent """
-    serializer_class = CourseSerializer 
+    serializer_class = CourseResponseSerializer 
     pagination_class = TenPerPagination
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields =['title']
+    filterset_fields =['title']
+
+
     def get_queryset(self):
         return Course.objects.filter(created_by__user=self.request.user)
 

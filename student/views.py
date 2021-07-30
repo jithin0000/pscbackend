@@ -1,3 +1,5 @@
+from course.models import Course
+from pscrestbackend.paginators.default_paginator import TenPerPagination
 from student.models import Student
 from student.serializers import StudentSerializer
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -7,7 +9,8 @@ from rest_framework.response import Response
 from customauth.permissions import AgentOnly
 from rest_framework.generics import ListAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
 from django.utils import timezone
-
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework import status
 from customauth.models import MyUser
 # Create your views here.
@@ -50,9 +53,13 @@ class GetStudentsOfAgent(BaseStudentGenericClass, ListAPIView):
     """ return all student of particular user"""
     serializer_class = StudentSerializer
     model = Student
+    pagination_class = TenPerPagination
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields =['name','created']
+    filterset_fields =['name']
 
     def get_queryset(self):
-        return self.request.user.added_agent.all()
+        return self.request.user.agent_students.all()
 
 # student details
 

@@ -12,9 +12,12 @@ class Student(models.Model):
     phone_number = models.CharField(max_length=12)
     # need to fix this
     added_by = models.ForeignKey(
-        MyUser, on_delete=models.SET_NULL, null=True, related_name="added_agent")
+        MyUser, on_delete=models.SET_NULL, null=True, related_name="agent_students")
 
     created = models.DateTimeField(null=True)
     updated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
 
     # need to add courses

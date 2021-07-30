@@ -1,3 +1,4 @@
+from pscrestbackend.paginators.default_paginator import TenPerPagination
 from agent.models import Agent
 from django.shortcuts import render
 from rest_framework import serializers
@@ -25,6 +26,7 @@ class CourseCreateView(BaseCourseClass,CreateAPIView):
 class CourseListView(BaseCourseClass,ListAPIView):
     """ list of courses of particular agent """
     serializer_class = CourseSerializer 
+    pagination_class = TenPerPagination
     def get_queryset(self):
         return Course.objects.filter(created_by__user=self.request.user)
 

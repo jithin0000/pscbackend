@@ -19,6 +19,7 @@ class Course(models.Model):
     end_time = models.DateTimeField()
     status = models.CharField(choices=course_choices, max_length=50)
     students = models.ManyToManyField(Student, null=True)
+    # TODO:need to add created
 
     def __str__(self):
         return self.title

@@ -42,3 +42,16 @@ class QuestionSerializer(serializers.ModelSerializer):
             option.save()
 
         return instance
+
+
+class QuestionResponseSerializer(serializers.ModelSerializer):
+    """ serializer for question resposne"""
+
+    options = OptionSerializer(many=True)
+    class Meta:
+        model = Question
+        fields = "__all__"
+    
+
+
+

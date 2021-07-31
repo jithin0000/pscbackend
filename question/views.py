@@ -1,11 +1,15 @@
 from django.http import request
-from .serializers import QuestionSerializer, OptionSerializer, Question, Option
+from .serializers import QuestionResponseSerializer, QuestionSerializer, OptionSerializer, Question, Option
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .serializers import QuestionSerializer
 from customauth.permissions import AgentOnly
 from agent.models import Agent
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+from pscrestbackend.paginators.default_paginator import TenPerPagination
+
 # Create your views here.
 
 
@@ -26,7 +30,12 @@ class QuestionCreateView(BaseQuestionView, CreateAPIView):
 # list of question
 class QuestionListView(BaseQuestionView, ListAPIView):
     """ question list view """
-    serializer_class = QuestionSerializer
+    serializer_class = QuestionResponseSerializer
+    pagination_class = TenPerPagination
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields =['created']
+    filterset_fields =['text']
+
 
     def get_queryset(self):
         return Question.objects.filter(created_by__user=self.request.user)
@@ -42,7 +51,7 @@ class QuestionUpdateView(BaseQuestionView, UpdateAPIView):
 # get question
 class QuestionDetailView(BaseQuestionView, RetrieveAPIView):
     """ question detail view """
-    serializer_class = QuestionSerializer
+    serializer_class = QuestionResponseSerializer
     queryset = Question.objects.all()
 
 

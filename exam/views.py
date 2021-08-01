@@ -2,11 +2,15 @@ from django.shortcuts import render
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+from pscrestbackend.paginators.default_paginator import TenPerPagination
+
 
 # Create your views here.
 from agent.models import Agent
 from exam.models import Exam
-from exam.serializers import ExamSerializer
+from exam.serializers import ExamResponseSerializer, ExamSerializer
 from customauth.permissions import AgentOnly
 
 
@@ -26,12 +30,19 @@ class ExamCreateView(BaseExamView, CreateAPIView):
 
 
 class ExamListView(BaseExamView, ListAPIView):
-    serializer_class = ExamSerializer
+    serializer_class = ExamResponseSerializer
+    pagination_class = TenPerPagination
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields =['name']
+    filterset_fields =['name']
+
+
+
     def get_queryset(self):
         return Exam.objects.filter(created_by__user = self.request.user)
 
 class ExamDetailView(BaseExamView, RetrieveAPIView):
-    serializer_class = ExamSerializer
+    serializer_class = ExamResponseSerializer
     queryset = Exam.objects.all()
 
 

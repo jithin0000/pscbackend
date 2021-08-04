@@ -10,7 +10,7 @@ from customauth.permissions import AgentOnly
 from rest_framework.generics import ListAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter,SearchFilter
 from rest_framework import status
 from customauth.models import MyUser
 # Create your views here.
@@ -54,8 +54,9 @@ class GetStudentsOfAgent(BaseStudentGenericClass, ListAPIView):
     serializer_class = StudentSerializer
     model = Student
     pagination_class = TenPerPagination
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
     ordering_fields =['name','created']
+    search_fields =["name"]
     filterset_fields =['name']
 
     def get_queryset(self):

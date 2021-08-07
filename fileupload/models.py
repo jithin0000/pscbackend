@@ -16,5 +16,5 @@ class FileUpload(models.Model):
 
     def __str__(self):
         """Unicode representation of FileUpload."""
-        return self.image_url
+        return self.image_url.url
 

@@ -3,7 +3,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, D
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 from pscrestbackend.paginators.default_paginator import TenPerPagination
 
 
@@ -32,7 +32,8 @@ class ExamCreateView(BaseExamView, CreateAPIView):
 class ExamListView(BaseExamView, ListAPIView):
     serializer_class = ExamResponseSerializer
     pagination_class = TenPerPagination
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
+    search_fields=['name']
     ordering_fields =['name']
     filterset_fields =['name']
 

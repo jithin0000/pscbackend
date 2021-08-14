@@ -9,7 +9,7 @@ from .serializers import QuestionSerializer
 from customauth.permissions import AgentOnly
 from agent.models import Agent
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 from pscrestbackend.paginators.default_paginator import TenPerPagination
 
 # Create your views here.
@@ -34,8 +34,9 @@ class QuestionListView(BaseQuestionView, ListAPIView):
     """ question list view """
     serializer_class = QuestionResponseSerializer
     pagination_class = TenPerPagination
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     ordering_fields =['created']
+    search_fields=['text']
     filterset_fields =['text']
 
 

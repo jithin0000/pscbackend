@@ -9,7 +9,7 @@ from customauth.permissions import AgentOnly
 from rest_framework.authentication import TokenAuthentication
 from . serializers import CourseSerializer, Course, CourseResponseSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -34,12 +34,13 @@ class CourseListView(BaseCourseClass, ListAPIView):
     """ list of courses of particular agent """
     serializer_class = CourseResponseSerializer
     pagination_class = TenPerPagination
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
     ordering_fields = ['title']
+    search_fields =['title']
     filterset_fields = ['title']
 
     def get_queryset(self):
-        return Course.objects.filter(created_by__user=self.request.user)
+        return Course.objects.all()
 
 
 class CourseDetailView(BaseCourseClass, RetrieveAPIView):

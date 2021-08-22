@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'agent',
     'corsheaders',
     'fileupload',
-    'student', 'course', 'question','exam'
+    'student', 'course', 'question','exam',
+    'questionpaper'
 ]
 
 MIDDLEWARE = [

@@ -6,10 +6,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from customauth.permissions import AgentOnly
+
 from rest_framework.authentication import TokenAuthentication
 from . serializers import CourseSerializer, Course, CourseResponseSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
+
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -61,7 +63,6 @@ class CourseDeleteView(BaseCourseClass, DestroyAPIView):
     queryset = Course.objects.all()
 
 
-# TODO:// add or remove student to course
 
 class AddUsersToCourse(APIView):
     """ class for add students to course """
@@ -101,7 +102,7 @@ class RemoveStudentCourseView(APIView):
 
         course.save()
 
-        return Response({'message': "student added succesfully"},
+        return Response({'message': "student removed succesfully"},
                         status=status.HTTP_200_OK
                         )
 

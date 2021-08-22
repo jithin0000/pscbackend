@@ -30,6 +30,8 @@ urlpatterns = [
     path('api/question/', include('question.urls')),
     path('api/exam/', include('exam.urls')),
     path('api/upload/', include('fileupload.urls')),
+    path('api/question-paper/', include('questionpaper.urls')),
+
 
 ]
 

@@ -8,7 +8,6 @@ def upload_to(instance,filename):
     return 'images/{filename}'.format(filename= filename)
 
 
-# TODO: need to validate file extensions and file size
 class FileUpload(models.Model):
     """Model definition for FileUpload."""
     image_url = models.ImageField(upload_to=upload_to, max_length=255)

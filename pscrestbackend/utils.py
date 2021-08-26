@@ -23,7 +23,7 @@ def generate_students():
             password="testpassword",
         ),
         name=fake.name(),
-        phone_number=fake.phone_number(),
+        phone_number=fake.phone_number()[0:11],
         added_by=MyUser.objects.get(email="newagent@gmail.com"),
         created=timezone.now()
     )

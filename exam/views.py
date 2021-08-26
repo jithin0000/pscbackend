@@ -37,8 +37,6 @@ class ExamListView(BaseExamView, ListAPIView):
     ordering_fields =['name']
     filterset_fields =['name']
 
-
-
     def get_queryset(self):
         return Exam.objects.filter(created_by__user = self.request.user)
 

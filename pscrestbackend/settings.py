@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'rest_framework',
     'django_filters',
     'customauth',
@@ -86,8 +87,11 @@ WSGI_APPLICATION = 'pscrestbackend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dpsc',
+        'USER':'root',
+        'PASSWORD':'my-secret-pw',
+        'PORT':3306
     }
 }
 

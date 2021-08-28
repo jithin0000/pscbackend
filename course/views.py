@@ -7,7 +7,6 @@ from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, 
 from rest_framework.permissions import IsAuthenticated
 from customauth.permissions import AgentOnly
 
-from rest_framework.authentication import TokenAuthentication
 from . serializers import CourseSerializer, Course, CourseResponseSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -15,10 +14,12 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 class BaseCourseClass():
     permission_classes = [IsAuthenticated, AgentOnly]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
 
 # Create your views here.

@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from customauth.views import PscJwtTokenPairView
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
@@ -20,6 +21,10 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from django.conf import settings
 from django.conf.urls.static import static
+
+from rest_framework_simplejwt.views import (
+    TokenRefreshView
+)
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -47,7 +52,8 @@ urlpatterns = [
     url(r'^redoc/$', schema_view.with_ui('redoc',
         cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('api/auth/login', obtain_auth_token),
+    path('api/auth/login', PscJwtTokenPairView.as_view(), name='token_view'),
+    path('api/auth/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/auth/', include('customauth.urls')),
     path('api/agent/', include('agent.urls')),
     path('api/student/', include('student.urls')),

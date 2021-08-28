@@ -1,23 +1,23 @@
-from rest_framework.views import APIView
-from fileupload.models import FileUpload
-from django.http import request
-from .serializers import QuestionResponseSerializer, QuestionSerializer, OptionSerializer, Question, Option
-from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from .serializers import QuestionSerializer
-from customauth.permissions import AgentOnly
 from agent.models import Agent
+from customauth.permissions import AgentOnly
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter, SearchFilter
 from pscrestbackend.paginators.default_paginator import TenPerPagination
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.generics import (CreateAPIView, DestroyAPIView,
+                                     ListAPIView, RetrieveAPIView,
+                                     UpdateAPIView)
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from .serializers import ( Question,
+                          QuestionResponseSerializer, QuestionSerializer)
 
 # Create your views here.
 
 
 class BaseQuestionView():
     permission_classes = [IsAuthenticated, AgentOnly]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
 
 class QuestionCreateView(BaseQuestionView, CreateAPIView):
@@ -35,10 +35,9 @@ class QuestionListView(BaseQuestionView, ListAPIView):
     serializer_class = QuestionResponseSerializer
     pagination_class = TenPerPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    ordering_fields =['created']
-    search_fields=['text']
-    filterset_fields =['text']
-
+    ordering_fields = ['created']
+    search_fields = ['text']
+    filterset_fields = ['text']
 
     def get_queryset(self):
         return Question.objects.filter(created_by__user=self.request.user)

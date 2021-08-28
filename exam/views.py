@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from pscrestbackend.paginators.default_paginator import TenPerPagination
 
 
@@ -16,7 +16,7 @@ from customauth.permissions import AgentOnly
 
 class BaseExamView:
     permission_classes = [IsAuthenticated, AgentOnly]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
 
 class ExamCreateView(BaseExamView, CreateAPIView):

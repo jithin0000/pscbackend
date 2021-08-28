@@ -3,9 +3,9 @@ from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from customauth.permissions import AgentOnly
 from pscrestbackend.paginators.default_paginator import TenPerPagination
-from rest_framework.authentication import TokenAuthentication
 # Create your views here.
 
 from questionpaper.models import QuestionPaper, QuestionPaperQuestion
@@ -15,7 +15,7 @@ from agent.models import Agent
 
 class BaseQuestionPaperView():
     permission_classes = [IsAuthenticated, AgentOnly]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
 
 class QuestionPaperListView(BaseQuestionPaperView, ListAPIView):

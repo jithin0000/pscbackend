@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-+b%qp(to^rrm&&g$@l4sx7=x)1&!o(41_-jk-04kfi8vixdk4!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_filters',
     'customauth',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'agent',
     'corsheaders',
     'fileupload',
@@ -60,6 +61,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 ROOT_URLCONF = 'pscrestbackend.urls'
 

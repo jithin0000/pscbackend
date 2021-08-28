@@ -3,8 +3,8 @@ from customauth.models import MyUser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics, status
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import AgentSerializer
 from customauth.permissions import AdminOnly
 # Create your views here.
@@ -35,7 +35,7 @@ def register_agent(request):
 class AgentListView(generics.ListAPIView, generics.GenericAPIView):
     """agent list api view"""
 
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = (IsAuthenticated, AdminOnly, )
     queryset = Agent.objects.all()
     serializer_class = AgentSerializer

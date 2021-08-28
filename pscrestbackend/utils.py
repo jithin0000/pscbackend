@@ -14,6 +14,15 @@ fake = Faker()
 
 """ assumes that agent with agent@gmail.com exist """
 
+def create_agent():
+    user = MyUser.objects.create_user(email="newagent@gmail.com",password="newagent@gmail.com",role="AGENT")
+
+    Agent.objects.create(
+        user = user,name="newagent",phone_number="1324567890",
+        address_state="kerala",
+        address_city="Thrissur",
+        address_pin="680511",
+    )
 
 def generate_students():
     """ generate fake students """

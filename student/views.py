@@ -1,10 +1,10 @@
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from course.models import Course
 from pscrestbackend.paginators.default_paginator import TenPerPagination
 from student.models import Student
 from student.serializers import StudentSerializer
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from customauth.permissions import AgentOnly
 from rest_framework.generics import ListAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
@@ -21,7 +21,7 @@ from customauth.models import MyUser
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, AgentOnly])
-@authentication_classes([TokenAuthentication])
+@authentication_classes([JWTAuthentication])
 def register_student(request):
     """ registering student """
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def register_student(request):
 
 class BaseStudentGenericClass():
     permission_classes = [IsAuthenticated, AgentOnly]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
 
 # """ get students of particular agent"""

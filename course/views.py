@@ -43,7 +43,8 @@ class CourseListView(BaseCourseClass, ListAPIView):
     filterset_fields = ['title']
 
     def get_queryset(self):
-        return Course.objects.all()
+        agent = get_object_or_404(Agent,user=self.request.user)
+        return agent.created_courses.all()
 
 
 class CourseDetailView(BaseCourseClass, RetrieveAPIView):

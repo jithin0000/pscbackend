@@ -1,3 +1,4 @@
+from agent.models import Agent
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from course.models import Course
 from pscrestbackend.paginators.default_paginator import TenPerPagination
@@ -7,7 +8,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from customauth.permissions import AgentOnly
-from rest_framework.generics import ListAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, DestroyAPIView, RetrieveAPIView, UpdateAPIView, get_object_or_404
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter,SearchFilter
@@ -60,7 +61,8 @@ class GetStudentsOfAgent(BaseStudentGenericClass, ListAPIView):
     filterset_fields =['name']
 
     def get_queryset(self):
-        return self.request.user.agent_students.all()
+        agent = get_object_or_404(Agent,user=self.request.user)
+        return agent.agent_students.all()
 
 # student details
 

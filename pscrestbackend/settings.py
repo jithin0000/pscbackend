@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
     'agent',
     'corsheaders',
     'fileupload',
-    'student', 'course', 'question','exam',
+    'student', 'course', 'question', 'exam',
     'questionpaper'
 ]
 
@@ -62,10 +63,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-REST_FRAMEWORK={
+REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+
 }
 
 ROOT_URLCONF = 'pscrestbackend.urls'
@@ -96,9 +103,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dpsc',
-        'USER':'root',
-        'PASSWORD':'my-secret-pw',
-        'PORT':3306
+        'USER': 'root',
+        'PASSWORD': 'my-secret-pw',
+        'PORT': 3306
     }
 }
 
@@ -150,5 +157,5 @@ AUTH_USER_MODEL = 'customauth.MyUser'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

@@ -3,7 +3,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from course.models import Course
 from pscrestbackend.paginators.default_paginator import TenPerPagination
 from student.models import Student
-from student.serializers import StudentSerializer
+from student.serializers import StudentListResponseSerializer, StudentSerializer
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -50,9 +50,9 @@ class BaseStudentGenericClass():
 
 
 # """ get students of particular agent"""
-class GetStudentsOfAgent(BaseStudentGenericClass, ListAPIView):
+class GetStudentsOfAgent( ListAPIView):
     """ return all student of particular user"""
-    serializer_class = StudentSerializer
+    serializer_class = StudentListResponseSerializer
     model = Student
     pagination_class = TenPerPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
@@ -61,8 +61,8 @@ class GetStudentsOfAgent(BaseStudentGenericClass, ListAPIView):
     filterset_fields =['name']
 
     def get_queryset(self):
-        agent = get_object_or_404(Agent,user=self.request.user)
-        return agent.agent_students.all()
+        # return Student.objects.filter(added_by=self.request.user)
+        return Student.objects.all()
 
 # student details
 

@@ -18,6 +18,7 @@ class TenPerPagination(PageNumberPagination):
             'next' : next_page_number,
             'previous': previous_page_number,
             'results': data,
+            'pageSize': self.get_page_size(self.request)
         }
         
         return Response(body)

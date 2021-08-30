@@ -10,7 +10,7 @@ from pscrestbackend.paginators.default_paginator import TenPerPagination
 # Create your views here.
 from agent.models import Agent
 from exam.models import Exam
-from exam.serializers import ExamResponseSerializer, ExamSerializer
+from exam.serializers import ExamDetailSerializer, ExamResponseSerializer, ExamSerializer
 from customauth.permissions import AgentOnly
 
 
@@ -40,8 +40,8 @@ class ExamListView(BaseExamView, ListAPIView):
     def get_queryset(self):
         return Exam.objects.filter(created_by__user = self.request.user)
 
-class ExamDetailView(BaseExamView, RetrieveAPIView):
-    serializer_class = ExamResponseSerializer
+class ExamDetailView( RetrieveAPIView):
+    serializer_class = ExamDetailSerializer
     queryset = Exam.objects.all()
 
 

@@ -1,6 +1,6 @@
-from question import serializers
 from rest_framework.serializers import ModelSerializer,PrimaryKeyRelatedField
 from .models import Exam, Question, Course
+from question.serializers import QuestionResponseSerializer
 
 class ExamSerializer(ModelSerializer):
     """ serializer for exam """
@@ -20,3 +20,9 @@ class ExamResponseSerializer(ModelSerializer):
         model = Exam
         fields = "__all__"
 
+class ExamDetailSerializer(ModelSerializer):
+    """ serializer for exam details"""
+    questions = PrimaryKeyRelatedField(many=True,read_only=True)
+    class Meta:
+        model = Exam
+        fields ="__all__"
